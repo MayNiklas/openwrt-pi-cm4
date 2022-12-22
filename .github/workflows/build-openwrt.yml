@@ -21,7 +21,7 @@ jobs:
       - name: build openwrt
         env:
           version: ${GITHUB_REF#refs/*/}
-        run: docker run -v $(pwd)/output:/output build-openwrt
+        run: docker run -e version=$version -v $(pwd)/output:/output build-openwrt
 
       - name: list ./output/*
         run: ls -al ./output
