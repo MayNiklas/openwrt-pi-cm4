@@ -1,5 +1,12 @@
 # build-openwrt
 
+## Quickstart
+
+```bash
+docker build . -t build-openwrt
+docker run --rm -v $(pwd)/output:/output build-openwrt
+```
+
 I want to run OpenWRT on my travel router, based on a Raspberry Pi CM4 module.
 Since the drivers needed are not supported by OpenWRT, I need to build my own image from source.
 It makes sense for me to build the image through a CI/CD pipeline, so I can easily update the image.

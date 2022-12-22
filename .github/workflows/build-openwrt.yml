@@ -4,8 +4,6 @@ on:
   repository_dispatch:
   workflow_dispatch:
   push:
-    branches:
-      - "main"
     tags:
       - "v*"
 
@@ -17,39 +15,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
-      - name: Initialization environment
+      - name: build docker image
+        run: docker build -t openwrt-build .
+
+      - name: build openwrt
         env:
-          DEBIAN_FRONTEND: noninteractive
-        run: |
-          sudo apt update
-          sudo apt install build-essential clang flex g++ gawk gcc-multilib gettext \
-          git libncurses5-dev libssl-dev python3-distutils rsync unzip gzip zlib1g-dev \
-          file wget
+          version: ${GITHUB_REF#refs/*/}
+        run: docker run -v $(pwd)/output:/output build-openwrt
 
-          # set timezoen
-          sudo timedatectl set-timezone Europe/Berlin
-
-          # preare workdir
-          sudo mkdir -p /workdir
-          sudo chown $USER:$GROUPS /workdir
-
-      - name: Checkout OpenWrt and prepare OpenWrt feeds
-        run: |
-          git clone --branch ${GITHUB_REF#refs/*/} https://github.com/openwrt/openwrt.git /workdir/openwrt
-          /workdir/openwrt/scripts/feeds update -a
-          /workdir/openwrt/scripts/feeds install -a
-
-      - name: Build OpenWrt - Pi-CM4-DUAL-ETH-MINI
-        run: |
-          cd /workdir/openwrt
-          cp /home/runner/work/build-openwrt/build-openwrt/targets/Pi-CM4-DUAL-ETH-MINI.config .config
-          make -j$(nproc) download V=s
-          make -j$(nproc) V=s
+      - name: list ./output/*
+        run: ls -al ./output
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: OpenWRT-Pi-CM4-DUAL-ETH-MINI-${GITHUB_REF#refs/*/}
           path: |
-            /workdir/openwrt/bin/targets/*
-            !/workdir/openwrt/bin/targets/*/packages/
+            ./output/*
