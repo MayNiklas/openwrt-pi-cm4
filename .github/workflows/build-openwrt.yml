@@ -32,21 +32,32 @@ jobs:
           sudo chown $USER:$GROUPS /workdir
 
       - name: Checkout OpenWrt
+        env:
+          version: v22.03.2
         run: |
-          git clone --branch v22.03.2 https://github.com/openwrt/openwrt.git /workdir/openwrt
+          if [[ "${GITHUB_REF#refs/*/}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo: "Checkout OpenWrt version ${GITHUB_REF#refs/*/}"
+            git clone --branch ${GITHUB_REF#refs/*/} https://github.com/openwrt/openwrt.git /workdir/openwrt
+          else
+            echo: "Checkout OpenWrt version $version"
+            git clone --branch $version https://github.com/openwrt/openwrt.git /workdir/openwrt
 
       - name: prepare OpenWrt feeds
         run: |
           /workdir/openwrt/scripts/feeds update -a
           /workdir/openwrt/scripts/feeds install -a
 
-      - name: prepare OpenWrt config
+      - name: copy OpenWrt config
         run: |
-          cd /workdir/openwrt
           cp /home/runner/work/build-openwrt/build-openwrt/targets/Broadcom\ BCM2711/diffconfig /workdir/openwrt/.config
+
+      - name: prepare OpenWrt config
+        working-directory: /workdir/openwrt
+        run: |
           make defconfig
 
       - name: Build OpenWrt - Broadcom BCM2711
+        working-directory: /workdir/openwrt
         run: |
           make -j$(nproc) download V=s
           make -j$(nproc) V=s
