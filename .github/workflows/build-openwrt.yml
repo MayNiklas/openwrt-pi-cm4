@@ -4,6 +4,8 @@ on:
   repository_dispatch:
   workflow_dispatch:
   push:
+    branches:
+      - main
     tags:
       - "v*"
 
@@ -19,14 +21,14 @@ jobs:
         run: docker build -t build-openwrt .
 
       - name: build openwrt
-        run: docker run -e version=${GITHUB_REF#refs/*/} -v $(pwd)/output:/output build-openwrt
+        run: docker run -v $(pwd)/output:/output build-openwrt
 
-      - name: list ./output/*
-        run: ls -al ./output
+      # - name: list ./output/*
+      #   run: ls -al ./output
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: OpenWRT-Pi-CM4-DUAL-ETH-MINI-${GITHUB_REF#refs/*/}
-          path: |
-            ./output/*
+      # - name: Upload artifacts
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: OpenWRT-Pi-CM4-DUAL-ETH-MINI-${GITHUB_REF#refs/*/}
+      #     path: |
+      #       ./output/*
