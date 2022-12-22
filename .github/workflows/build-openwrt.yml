@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@main
 
       - name: build docker image
-        run: docker build -t openwrt-build .
+        run: docker build -t build-openwrt .
 
       - name: build openwrt
         env:
