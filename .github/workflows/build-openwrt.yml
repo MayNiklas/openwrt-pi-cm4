@@ -47,7 +47,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: openwrt
+          name: Pi-CM4-DUAL-ETH-MINI
           path: |
             /workdir/openwrt/bin/targets/*
-            !/workdir/openwrt/bin/targets/packages/
+            !/workdir/openwrt/bin/targets/*/packages/
