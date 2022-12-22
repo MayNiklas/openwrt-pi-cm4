@@ -36,10 +36,10 @@ jobs:
           version: v22.03.2
         run: |
           if [[ "${GITHUB_REF#refs/*/}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo: "Checkout OpenWrt version ${GITHUB_REF#refs/*/}"
+            echo "Checkout OpenWrt version ${GITHUB_REF#refs/*/}"
             git clone --branch ${GITHUB_REF#refs/*/} https://github.com/openwrt/openwrt.git /workdir/openwrt
           else
-            echo: "Checkout OpenWrt version $version"
+            echo "Checkout OpenWrt version $version"
             git clone --branch $version https://github.com/openwrt/openwrt.git /workdir/openwrt
           fi
 
