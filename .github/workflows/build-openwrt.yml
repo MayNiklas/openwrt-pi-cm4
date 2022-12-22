@@ -73,4 +73,4 @@ jobs:
           name: Pi-CM4-DUAL-ETH-MINI
           path: |
             /workdir/openwrt/bin/targets/*
-            !/workdir/openwrt/bin/targets/*/packages/
+            !/workdir/openwrt/bin/targets/*/*/packages/
