@@ -15,11 +15,13 @@ RUN apt-get update && \
     git \
     gzip \
     libncurses5-dev \
+    libncursesw5-dev \
     libssl-dev \
     python3-distutils \
     rsync \
     unzip \
     wget \
+    xsltproc \
     zlib1g-dev
 
 WORKDIR /openwrt

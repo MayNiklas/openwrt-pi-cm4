@@ -10,7 +10,7 @@ git clone https://git.openwrt.org/openwrt/openwrt.git -b ${version} /openwrt
 
 ### build BCM2711 ###
 echo "building Broadcom BCM2711..."
-cp targets/Broadcom\ BCM27xx/BCM2711/diffconfig /openwrt/.config
+cp /targets/Broadcom\ BCM27xx/BCM2711/diffconfig /openwrt/.config
 # Apply changes
 make defconfig
 make -j$(nproc) download V=s
