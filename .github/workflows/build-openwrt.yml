@@ -17,18 +17,44 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
-      - name: build docker image
-        run: docker build -t build-openwrt .
+      - name: Initialization environment
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo apt update
+          sudo apt install build-essential clang flex g++ gawk gcc-multilib gettext \
+          git libncurses5-dev libssl-dev python3-distutils rsync unzip gzip zlib1g-dev \
+          file wget
+          # set timezoen
+          sudo timedatectl set-timezone Europe/Berlin
+          # preare workdir
+          sudo mkdir -p /workdir
+          sudo chown $USER:$GROUPS /workdir
 
-      - name: build openwrt
-        run: docker run -v $(pwd)/output:/output build-openwrt
+      - name: Checkout OpenWrt
+        run: |
+          git clone --branch v22.03.2 https://github.com/openwrt/openwrt.git /workdir/openwrt
 
-      # - name: list ./output/*
-      #   run: ls -al ./output
+      - name: prepare OpenWrt feeds
+        run: |
+          /workdir/openwrt/scripts/feeds update -a
+          /workdir/openwrt/scripts/feeds install -a
 
-      # - name: Upload artifacts
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: OpenWRT-Pi-CM4-DUAL-ETH-MINI-${GITHUB_REF#refs/*/}
-      #     path: |
-      #       ./output/*
+      - name: prepare OpenWrt config
+        run: |
+          cd /workdir/openwrt
+          cp /home/runner/work/build-openwrt/build-openwrt/targets/Broadcom\ BCM2711/diffconfig /workdir/openwrt/.config
+          make defconfig
+
+      - name: Build OpenWrt - Broadcom BCM2711
+        run: |
+          make -j$(nproc) download V=s
+          make -j$(nproc) V=s
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Pi-CM4-DUAL-ETH-MINI
+          path: |
+            /workdir/openwrt/bin/targets/*
+            !/workdir/openwrt/bin/targets/*/packages/
