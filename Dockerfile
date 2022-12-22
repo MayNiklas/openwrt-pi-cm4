@@ -12,7 +12,7 @@ RUN apt-get update &&\
         libpam0g-dev cpio rsync && \
     apt-get clean
 
-# copy target folder which should be built
+# copy target which should be built
 COPY targets/diffconfig /diffconfig
 
 WORKDIR /openwrt
