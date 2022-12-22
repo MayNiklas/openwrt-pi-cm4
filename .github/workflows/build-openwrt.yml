@@ -41,6 +41,7 @@ jobs:
           else
             echo: "Checkout OpenWrt version $version"
             git clone --branch $version https://github.com/openwrt/openwrt.git /workdir/openwrt
+          fi
 
       - name: prepare OpenWrt feeds
         run: |
