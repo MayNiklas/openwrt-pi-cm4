@@ -48,3 +48,20 @@ After executing `make menuconfig` I selected the following options for `Pi-CM4-D
 - Kernel modules -> USB Support -> kmod-usb2
 - Kernel modules -> USB Support -> kmod-usb2-pci
 - Kernel modules -> USB Support -> kmod-usb3
+
+### create diffconfig
+
+```bash
+# Write the changes to diffconfig
+./scripts/diffconfig.sh > diffconfig
+```
+
+### Using diff file
+
+```bash
+# Write changes to .config
+cp diffconfig .config
+ 
+# Expand to full config
+make defconfig
+```
