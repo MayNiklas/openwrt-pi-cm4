@@ -4,8 +4,8 @@ on:
   repository_dispatch:
   workflow_dispatch:
   push:
-    # branches:
-    #   - main
+    branches:
+      - main
     tags:
       - "v*"
 
@@ -57,10 +57,14 @@ jobs:
         run: |
           make defconfig
 
-      - name: Build OpenWrt - Broadcom BCM2711
+      - name: make download - Broadcom BCM2711
         working-directory: /workdir/openwrt
         run: |
           make -j$(nproc) download V=s
+
+      - name: make - Broadcom BCM2711
+        working-directory: /workdir/openwrt
+        run: |
           make -j$(nproc) V=s
 
       - name: Upload artifacts
