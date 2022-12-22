@@ -34,8 +34,9 @@ jobs:
       - name: Checkout OpenWrt and prepare OpenWrt feeds
         run: |
           git clone https://github.com/openwrt/openwrt.git /workdir/openwrt
-          /workdir/openwrt/scripts/feeds update -a
-          /workdir/openwrt/scripts/feeds install -a
+          cd /workdir/openwrt
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
 
       - name: Build OpenWrt - Pi-CM4-DUAL-ETH-MINI
         run: |
