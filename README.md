@@ -27,22 +27,17 @@ After executing `make menuconfig` I selected the following options for `Pi-CM4-D
 - Luci -> Collections -> luci
 
 # hardware support
-- Kernel modules -> USB Support -> kmod-usb-core
-- Kernel modules -> USB Support -> kmod-usb-hid
-- Kernel modules -> USB Support -> kmod-usb-net
-- Kernel modules -> USB Support -> kmod-usb-net-rtl8152
 - Kernel modules -> USB Support -> kmod-usb2
 - Kernel modules -> USB Support -> kmod-usb2-pci
 - Kernel modules -> USB Support -> kmod-usb3
+- Kernel modules -> Network Devices -> kmod-r8169
 
-### OpenVPN
+### VPN support
 - Luci -> Applications -> luci-app-openvpn
-- Network -> VPN -> openvpn-openssl
-- Utilities -> openssl-util
-
-### Wireguard            
 - Luci -> Protocols -> luci-proto-wireguard
+- Network -> VPN -> openvpn-openssl
 - Network -> VPN -> wireguard-tools
+- Utilities -> openssl-util
 
 ### create diffconfig
 
