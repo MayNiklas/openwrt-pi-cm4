@@ -51,6 +51,7 @@ jobs:
       - name: copy OpenWrt config
         run: |
           cp /home/runner/work/build-openwrt/build-openwrt/targets/Broadcom\ BCM2711/diffconfig /workdir/openwrt/.config
+          cp -r /home/runner/work/build-openwrt/build-openwrt/files /workdir/openwrt/
 
       - name: prepare OpenWrt config
         working-directory: /workdir/openwrt

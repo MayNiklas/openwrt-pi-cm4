@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Setup the system for the initial configuration.
+# This script is only run once on first boot and is deleted afterwards.
+
+set_lan_addr() {
+	uci -q set network.lan.ipaddr='192.168.101.1'
+	uci -q commit network
+}
+
+set_lan_addr
+
+exit 0
