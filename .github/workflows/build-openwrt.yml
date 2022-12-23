@@ -68,7 +68,7 @@ jobs:
           make -j$(nproc) V=s
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Pi-CM4-DUAL-ETH-MINI
           path: |
