@@ -4,8 +4,8 @@ on:
   repository_dispatch:
   workflow_dispatch:
   push:
-    branches:
-      - main
+    # branches:
+    #   - main
     tags:
       - "v*"
 
@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@main
+        uses: actions/checkout@v2
 
       - name: Initialization environment
         env:
