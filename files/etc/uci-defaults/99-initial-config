@@ -3,11 +3,36 @@
 # Setup the system for the initial configuration.
 # This script is only run once on first boot and is deleted afterwards.
 
-set_lan_addr() {
+set_lan_network() {
+	uci -q set network.lan=interface
+	uci -q set network.lan.device='br-lan'
+	uci -q set network.lan.proto='static'
+	uci -q set network.lan.netmask='255.255.255.0'
+	uci -q set network.lan.ip6assign='60'
 	uci -q set network.lan.ipaddr='192.168.101.1'
+	
+	# commit changes
 	uci -q commit network
 }
 
-set_lan_addr
+set_wan_network() {
+	uci -q set network.wan=interface
+	uci -q set network.wan.proto='dhcp'
+	uci -q set network.wan.device='eth1'
+
+	# commit changes
+	uci -q commit network
+}
+
+set_dhcp_server() {
+	uci -q set dhcp.@dnsmasq[0].domain='zyphyr-one'
+
+	# commit changes
+	uci -q commit dhcp
+}
+
+set_lan_network
+set_wan_network
+set_dhcp_server
 
 exit 0
