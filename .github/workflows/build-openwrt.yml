@@ -85,8 +85,4 @@ jobs:
           gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/config.buildinfo
           gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/feeds.buildinfo
           gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/*.img.gz
-          gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/*.tar.gz
           gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/*.manifest
-          gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/profiles.json
-          gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/sha256sums
-          gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/version.buildinfo
