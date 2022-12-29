@@ -24,15 +24,15 @@ set_wan_network() {
 	uci -q commit network
 }
 
-set_dhcp_server() {
-	uci -q set dhcp.@dnsmasq[0].domain='zyphyr-one'
+set_system_settings() {
+	uci -q set system.@system[0].hostname='zypher-one'
 
 	# commit changes
-	uci -q commit dhcp
+	uci -q commit system
 }
 
 set_lan_network
 set_wan_network
-set_dhcp_server
+set_system_settings
 
 exit 0
