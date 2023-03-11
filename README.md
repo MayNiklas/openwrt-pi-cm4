@@ -91,6 +91,10 @@ I selected the following options for `Pi-CM4-DUAL-ETH-MINI.config`:
 ### Luci
 
 - Luci -> Collections -> luci
+- Luci -> Modules -> Translations -> German (de)
+- Luci -> Modules -> Translations -> English (en)
+- Luci -> Modules -> Translations -> Spanish (es)
+- Luci -> Modules -> Translations -> French (fr)
 
 ### VPN support
 
