@@ -4,8 +4,9 @@ on:
   repository_dispatch:
   workflow_dispatch:
   push:
-    branches:
-      - main
+    # # only push on new version tags
+    # branches:
+    #   - main
     tags:
       - "v*"
 
@@ -33,7 +34,7 @@ jobs:
 
       - name: Checkout OpenWrt
         env:
-          version: v22.03.2
+          version: v22.03.3
         run: |
           if [[ "${GITHUB_REF#refs/*/}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Checkout OpenWrt version ${GITHUB_REF#refs/*/}"
@@ -50,8 +51,8 @@ jobs:
 
       - name: copy OpenWrt config
         run: |
-          cp /home/runner/work/build-openwrt/build-openwrt/targets/Broadcom\ BCM2711/diffconfig /workdir/openwrt/.config
-          cp -r /home/runner/work/build-openwrt/build-openwrt/files /workdir/openwrt/
+          cp /home/runner/work/openwrt-pi-cm4/openwrt-pi-cm4/targets/Broadcom\ BCM2711/diffconfig /workdir/openwrt/.config
+          cp -r /home/runner/work/openwrt-pi-cm4/openwrt-pi-cm4/files /workdir/openwrt/
 
       - name: prepare OpenWrt config
         working-directory: /workdir/openwrt
@@ -85,4 +86,5 @@ jobs:
           gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/config.buildinfo
           gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/feeds.buildinfo
           gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/*.img.gz
+          gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/*.tar.gz
           gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/*.manifest
