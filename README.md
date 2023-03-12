@@ -21,6 +21,14 @@ On Ubuntu, you can install them with:
 sudo apt install build-essential clang flex g++ gawk gcc-multilib gettext git libncurses5-dev libssl-dev python3-distutils rsync unzip gzip zlib1g-dev file wget
 ```
 
+On systems with [nix](https://nixos.org/download.html) installed, you can use the development shell to get a shell with all dependencies installed:
+
+```bash
+nix develop
+```
+
+`nix develop` is a flake command, so you need to have flake support enabled in your nix installation.
+
 ### Prepare the OpenWrt source code
 
 ```bash
@@ -31,6 +39,9 @@ export version=v22.03.3
 echo "Checkout OpenWrt version $version"
 git clone --branch $version https://github.com/openwrt/openwrt.git 
 
+# copy diffconfig into the source code directory
+cp targets/Broadcom\ BCM2711/diffconfig openwrt/.config
+
 # change into the source code directory
 cd openwrt
 
@@ -39,25 +50,18 @@ cd openwrt
 ./scripts/feeds install -a
 ```
 
+### Use diffconfig to create .config
+
+```bash
+# expand diffconfig to full config
+make defconfig
+```
+
 ### Choose build options
 
 ```bash
 # execute in OpenWrt root directory
 make menuconfig
-```
-
-### Create diffconfig from .config
-
-```bash
-# write the changes to diffconfig
-./scripts/diffconfig.sh > diffconfig
-```
-
-### Use diffconfig to create .config
-
-```bash
-# expand to full config
-make defconfig
 ```
 
 ### Build images
@@ -104,4 +108,12 @@ I selected the following options for `Pi-CM4-DUAL-ETH-MINI.config`:
 - Network -> VPN -> wireguard-tools
 - Utilities -> openssl-util
 
-> Copy the resulting .config & diffconfig file into the targets directory and commit them to the repository. Once the CI/CD pipeline is triggered, it will use the .config & diffconfig file to build the image.
+## Copy config files into this repository
+
+```bash
+# convert .config to diffconfig
+./scripts/diffconfig.sh > diffconfig
+
+# copy diffconfig & .config into this repository
+cp diffconfig .config ../targets/Broadcom\ BCM2711/
+```
