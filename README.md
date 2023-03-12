@@ -10,7 +10,7 @@ Also, other people might benefit from this aproach.
 | Hardware                                                                                                               | description                                                                  |
 | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | [Raspberry Pi Compute Module 4](https://www.raspberrypi.com/products/compute-module-4/?variant=raspberry-pi-cm4002008) | Quad core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5GHz, 2GB RAM & 8GB EMC storage |
-| [Waveshare CM4-DUAL-ETH-MINI](https://www.waveshare.com/wiki/CM4-DUAL-ETH-MINI/)                                       | A CM4 baseboard with dual Gigabit Ethernet ports                             |
+| [Waveshare CM4-DUAL-ETH-MINI](https://www.waveshare.com/wiki/CM4-DUAL-ETH-MINI)                                        | A CM4 baseboard with dual Gigabit Ethernet ports                             |
 
 ## Image building
 
