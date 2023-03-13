@@ -106,10 +106,27 @@ I selected the following options for `Pi-CM4-DUAL-ETH-MINI.config`:
 ### VPN support
 
 - Luci -> Applications -> luci-app-openvpn
+- Luci -> Applications -> luci-app-wireguard
 - Luci -> Protocols -> luci-proto-wireguard
 - Network -> VPN -> openvpn-openssl
 - Network -> VPN -> wireguard-tools
 - Utilities -> openssl-util
+
+### [Smartphone USB tethering](https://openwrt.org/docs/guide-user/network/wan/smartphone.usb.tethering)
+
+- Kernel modules -> USB Support -> kmod-usb-core
+- Kernel modules -> USB Support -> kmod-usb-net
+- Kernel modules -> USB Support -> kmod-usb-net-cdc-eem
+- Kernel modules -> USB Support -> kmod-usb-net-cdc-ether
+- Kernel modules -> USB Support -> kmod-usb-net-cdc-ncm
+- Kernel modules -> USB Support -> kmod-usb-net-cdc-subset
+- Kernel modules -> USB Support -> kmod-usb-net-huawei-cdc-ncm
+- Kernel modules -> USB Support -> kmod-usb-net-ipheth
+- Kernel modules -> USB Support -> kmod-usb-net-rndis
+- Kernel modules -> native Language Support -> kmod-nls-base
+- Libaries -> libimobiledevice -> libimobiledevice
+- Utilities -> libimobiledevice -> usbmuxd
+- Utilities -> usbutils
 
 ## Copy config files into this repository
 
