@@ -42,6 +42,9 @@ git clone --branch $version https://github.com/openwrt/openwrt.git
 # copy diffconfig into the source code directory
 cp targets/Broadcom\ BCM2711/diffconfig openwrt/.config
 
+# copy files into the source code directory
+cp -r files openwrt/
+
 # change into the source code directory
 cd openwrt
 

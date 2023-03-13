@@ -17,10 +17,14 @@
         # Use nixpkgs-fmt for `nix fmt'
         formatter = pkgs.nixpkgs-fmt;
 
-        # `nix develop' will open a shell with the packages needed to work with OpenWrt
-        devShell = nix-environments.devShells.${system}.openwrt.overrideAttrs (old: {
-          extraPkgs = with pkgs; [ ];
-        });
+        devShells = {
+
+          # `nix develop' will open a shell with the packages needed to work with OpenWrt
+          default = nix-environments.devShells.${system}.openwrt.overrideAttrs (old: {
+            extraPkgs = with pkgs; [ ];
+          });
+
+        };
 
       }
     );
