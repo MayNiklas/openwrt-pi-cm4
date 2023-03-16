@@ -7,10 +7,10 @@ Also, other people might benefit from this aproach.
 
 ## Hardware
 
-| Hardware                                                                                                               | description                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| [Raspberry Pi Compute Module 4](https://www.raspberrypi.com/products/compute-module-4/?variant=raspberry-pi-cm4002008) | Quad core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5GHz, 2GB RAM & 8GB EMC storage |
-| [Waveshare CM4-DUAL-ETH-MINI](https://www.waveshare.com/wiki/CM4-DUAL-ETH-MINI)                                        | A CM4 baseboard with dual Gigabit Ethernet ports                             |
+| Hardware                                                                                                               | link to shop                                                                                             | description                                                                  |
+| ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [Raspberry Pi Compute Module 4](https://www.raspberrypi.com/products/compute-module-4/?variant=raspberry-pi-cm4002008) | [Berrybase](https://www.berrybase.de/raspberry-pi-compute-module-4-2gb-ram-8gb-flash?c=2410)             | Quad core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5GHz, 2GB RAM & 8GB EMC storage |
+| [Waveshare CM4-DUAL-ETH-MINI](https://www.waveshare.com/wiki/CM4-DUAL-ETH-MINI/)                                       | [Berrybase](https://www.berrybase.de/mini-ethernet-base-board-fuer-raspberry-pi-compute-module-4?c=2410) | A CM4 baseboard with dual Gigabit Ethernet ports                             |
 
 ## Image building
 
