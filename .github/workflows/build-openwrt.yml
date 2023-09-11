@@ -4,9 +4,9 @@ on:
   repository_dispatch:
   workflow_dispatch:
   push:
-    # only push on new version tags
-    branches:
-      - main
+    # # only push on new version tags
+    # branches:
+    #   - main
     tags:
       - "v*"
 
