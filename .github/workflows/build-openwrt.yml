@@ -13,60 +13,47 @@ on:
 jobs:
   build-openwrt-images:
     runs-on: ubuntu-22.04
+    defaults:
+      run:
+        shell: nix develop .#openwrt --command bash {0}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Initialization environment
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: |
-          sudo apt update
-          sudo apt install build-essential clang flex g++ gawk gcc-multilib gettext \
-          git libncurses5-dev libssl-dev python3-distutils rsync unzip gzip zlib1g-dev \
-          file wget
-          # set timezoen
-          sudo timedatectl set-timezone Europe/Berlin
-          # preare workdir
-          sudo mkdir -p /workdir
-          sudo chown $USER:$GROUPS /workdir
+      - uses: cachix/install-nix-action@v22
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
 
-      - name: Checkout OpenWrt
-        env:
-          version: v22.03.3
+      - name: prepare source
         run: |
-          if [[ "${GITHUB_REF#refs/*/}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Checkout OpenWrt version ${GITHUB_REF#refs/*/}"
-            git clone --branch ${GITHUB_REF#refs/*/} https://github.com/openwrt/openwrt.git /workdir/openwrt
-          else
-            echo "Checkout OpenWrt version $version"
-            git clone --branch $version https://github.com/openwrt/openwrt.git /workdir/openwrt
-          fi
+          git config --global user.name "MayNiklas"
+          git config --global user.email "info@niklas-steffen.de"
+          git submodule update --init --recursive
 
       - name: prepare OpenWrt feeds
         run: |
-          /workdir/openwrt/scripts/feeds update -a
-          /workdir/openwrt/scripts/feeds install -a
+          openwrt/scripts/feeds update -a
+          openwrt/scripts/feeds install -a
 
       - name: copy OpenWrt config
         run: |
-          cp /home/runner/work/openwrt-pi-cm4/openwrt-pi-cm4/targets/Broadcom\ BCM2711/diffconfig /workdir/openwrt/.config
-          cp -r /home/runner/work/openwrt-pi-cm4/openwrt-pi-cm4/files /workdir/openwrt/
+          cp targets/Broadcom\ BCM2711/diffconfig openwrt/.config
+          cp -r files openwrt/
 
       - name: prepare OpenWrt config
-        working-directory: /workdir/openwrt
         run: |
+          cd openwrt
           make defconfig
 
       - name: make download - Broadcom BCM2711
-        working-directory: /workdir/openwrt
         run: |
+          cd openwrt
           make -j$(nproc) download V=s
 
       - name: make - Broadcom BCM2711
-        working-directory: /workdir/openwrt
         run: |
+          cd openwrt
           make -j$(nproc) V=s
 
       - name: Upload artifacts
@@ -74,17 +61,17 @@ jobs:
         with:
           name: Pi-CM4-DUAL-ETH-MINI
           path: |
-            /workdir/openwrt/bin/targets/*
-            !/workdir/openwrt/bin/targets/*/*/packages/
+            /home/runner/work/openwrt-pi-cm4/openwrt-pi-cm4/openwrt/bin/targets/*
+            !/home/runner/work/openwrt-pi-cm4/openwrt-pi-cm4/openwrt/bin/targets/*/*/packages/
 
-      - name: gh release create ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/*
+      - name: gh release create ${GITHUB_REF#refs/*/} /home/runner/work/openwrt-pi-cm4/openwrt-pi-cm4/openwrt/bin/targets/*
         if: startsWith(github.ref, 'refs/tags/')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release create ${GITHUB_REF#refs/*/}
-          gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/config.buildinfo
-          gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/feeds.buildinfo
-          gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/*.img.gz
-          gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/*.tar.gz
-          gh release upload ${GITHUB_REF#refs/*/} /workdir/openwrt/bin/targets/bcm27xx/bcm2711/*.manifest
+          gh release upload ${GITHUB_REF#refs/*/} /home/runner/work/openwrt-pi-cm4/openwrt-pi-cm4/openwrt/bin/targets/bcm27xx/bcm2711/config.buildinfo
+          gh release upload ${GITHUB_REF#refs/*/} /home/runner/work/openwrt-pi-cm4/openwrt-pi-cm4/openwrt/bin/targets/bcm27xx/bcm2711/feeds.buildinfo
+          gh release upload ${GITHUB_REF#refs/*/} /home/runner/work/openwrt-pi-cm4/openwrt-pi-cm4/openwrt/bin/targets/bcm27xx/bcm2711/*.img.gz
+          gh release upload ${GITHUB_REF#refs/*/} /home/runner/work/openwrt-pi-cm4/openwrt-pi-cm4/openwrt/bin/targets/bcm27xx/bcm2711/*.tar.gz
+          gh release upload ${GITHUB_REF#refs/*/} /home/runner/work/openwrt-pi-cm4/openwrt-pi-cm4/openwrt/bin/targets/bcm27xx/bcm2711/*.manifest
