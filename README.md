@@ -32,12 +32,8 @@ nix develop
 ### Prepare the OpenWrt source code
 
 ```bash
-# choose a version from https://github.com/openwrt/openwrt/tags
-export version=v22.03.3
-
-# clone the source code
-echo "Checkout OpenWrt version $version"
-git clone --branch $version https://github.com/openwrt/openwrt.git 
+# pull submodules (feel free to update openwrt to a newer version)
+git submodule update --init --recursive
 
 # copy diffconfig into the source code directory
 cp targets/Broadcom\ BCM2711/diffconfig openwrt/.config
@@ -86,7 +82,7 @@ I selected the following options for `Pi-CM4-DUAL-ETH-MINI.config`:
 - Subtarget -> BCM2711
 - Target Images -> tar.gz
 - Target Image -> Kernel partition size (MiB): 128
-- Target Image -> Root filesystem partition size (MiB): 3968
+- Target Image -> Root filesystem partition size (MiB): 896
 
 ### Kernel modules
 
